@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, Route, Redirect } from 'react-router-dom';
+import { Switch, Route, Redirect, Link } from 'react-router-dom';
 import {
   createStyles, 
   Theme, 
@@ -7,77 +7,61 @@ import {
   CssBaseline,
   Container,
   AppBar,
-  Toolbar,
-  Typography,
-  Drawer
+  MenuList,
+  MenuItem
 } from '@material-ui/core';
+import HomeIcon from '@material-ui/icons/Home'
+import StarIcon from '@material-ui/icons/Star'
 
-import { Menu, MenuLinkProps } from './components/Menu'
-import { HomePage } from './pages/HomePage';
-import { FavoritesPage } from './pages/FavoritesPage'
-import { CityPage } from './pages/CityPage';
+import { HomePage, FavoritesPage, CityPage } from './pages';
 
-const drawerWidth = 240;
+const appBarHeight = 64
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
+      color: '#ffffff',
+      height: '100%',
+      minHeight: '100vh',
       display: 'flex',
-    },
-    appBar: {
-      zIndex: theme.zIndex.drawer + 1,
-    },
-    drawer: {
-      width: drawerWidth,
-      flexShrink: 0
-    },
-    drawerPaper: {
-      width: drawerWidth,
-      marginTop: 64
-    },
-    drawerContainer: {
-      overflow: 'auto',
+      flexDirection: 'column'
     },
     content: {
       flexGrow: 1,
-      padding: theme.spacing(3),
-      marginTop: 64
+      display: 'flex',
+      flexDirection: 'column',
+      padding: `${appBarHeight + theme.spacing(3)}px ${theme.spacing(3)}px`,
     },
+    navigationList: {
+      height: appBarHeight,
+      display: 'flex',
+      justifyContent: 'center',
+      backgroundColor: 'rgba(28,77,121,1)'
+    }
   }),
 );
-
-const menu: MenuLinkProps[] = [
-  {
-    title: 'Home',
-    link: '/home'
-  },
-  {
-    title: 'Favorites',
-    link: '/favorites'
-  }
-];
 
 function App() {
   const classes = useStyles();
 
   return <div className={classes.root}>
     <CssBaseline />
-    <AppBar position="fixed" className={classes.appBar}>
-      <Toolbar>
-        <Typography variant="h6" noWrap>
-          Weather App
-        </Typography>
-      </Toolbar>
+    <AppBar position="fixed">
+      <MenuList className={classes.navigationList}>
+        <MenuItem 
+          component={Link}
+          to={'/home'}
+        >
+          <HomeIcon />
+        </MenuItem>
+        <MenuItem 
+          component={Link}
+          to={'/favorites'}
+        >
+          <StarIcon />
+        </MenuItem>
+      </MenuList>
     </AppBar>
-    
-    <Drawer
-      className={classes.drawer}
-      variant="permanent"
-      classes={{ paper: classes.drawerPaper }}
-    >
-      <Menu links={menu} />
-    </Drawer> 
-
     <Container className={classes.content} maxWidth={'md'}>
       <Switch> 
         <Route exact path='/'><Redirect to='/home'/></Route>

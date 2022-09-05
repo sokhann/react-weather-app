@@ -4,11 +4,12 @@ import {
   CityAddAction,
   CityDeleteAction
 } from './cityTypes';
+import { CityInfoProps } from '../../interfaces/CityInfoProps';
 
-export const cityAdd = (id: number, name: string): CityAddAction => {
+export const cityAdd = (city: CityInfoProps): CityAddAction => {
   return {
     type: CITY_ADD,
-    payload: {id, name},
+    payload: city,
   };
 };
 

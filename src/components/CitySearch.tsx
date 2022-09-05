@@ -2,17 +2,20 @@ import React, { FC, useState } from 'react';
 import { makeStyles, createStyles, Paper, InputBase, IconButton } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search'
 
-import { fetchWeatherDataByName } from '../../services/WeatherService';
-import { CityInfoProps } from '../../interfaces/CityInfoProps'
-import { CityCard } from "../../components/CityCard";
-import { CityProps } from '../../stores/cityStore'
+import { fetchWeatherDataByName } from '../services/WeatherService';
+import { CityInfoProps } from '../interfaces/CityInfoProps'
+import { CityCard } from "../components";
 
 const useStyles = makeStyles(() =>
   createStyles({
+    container: {
+      width: '100%',
+      display: 'flex',
+      flexDirection: 'column'
+    },
     search: {
-      position: 'relative',
       padding: '2px 4px',
-      margin: '0 0 36px',
+      margin: '0 0 16px',
       display: 'flex',
       alignItems: 'center',
       width: '100%',
@@ -26,35 +29,14 @@ const useStyles = makeStyles(() =>
     },
     results: {
       padding: 16,
-    },
-    error: {
-      position: 'absolute',
-      bottom: -28,
-      right: 0,
-      color: '#e53935'
     }
   }),
 );
 
-interface CitySearchProps {
-  favoriteCities: CityProps[],
-  onAddCity: (id: number, name: string) => void,
-  onRemoveCity: (id: number) => void
-}
-
-export const CitySearch: FC<CitySearchProps> = ({
-  favoriteCities,
-  onAddCity,
-  onRemoveCity
-}) => {
+export const CitySearch: FC = () => {
   const classes = useStyles();
   const [searchValue, setSearchValue] = useState('')
   const [searchResult, setSearchResult] = useState<CityInfoProps | null>(null)
-
-  const isCityFavorite = (id: number) => {
-    const isFavorite = favoriteCities.find((item:CityProps) => item.id === id) != null
-    return isFavorite
-  }
 
   const changeSearchValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value);
@@ -73,15 +55,7 @@ export const CitySearch: FC<CitySearchProps> = ({
     }
   }
 
-  const handleCityFavorite = (id: number, name: string) => {
-    if (searchResult && !isCityFavorite(id)) {
-      onAddCity(id, name)
-    } else {
-      onRemoveCity(id)
-    }
-  }
-
-  return <div>
+  return <div className={classes.container}>
     <Paper className={classes.search}>
       <InputBase
         className={classes.input}
@@ -101,11 +75,7 @@ export const CitySearch: FC<CitySearchProps> = ({
     </Paper>
     {
       searchResult == null ? null : 
-        <CityCard 
-          cityInfo={searchResult}
-          isFavorite={isCityFavorite(searchResult.id)}
-          onFavoriteClick={handleCityFavorite}
-        />
+        <CityCard cityInfo={searchResult} />
     }
   </div>
 }

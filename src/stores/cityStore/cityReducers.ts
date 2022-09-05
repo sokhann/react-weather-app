@@ -19,9 +19,8 @@ export const cityReducers = (state = initialState, action: CityActionTypes): Cit
         cities: [
           ...state.cities,
           {
-            id: addAction.payload.id,
-            name: addAction.payload.name,
-          },
+            ...addAction.payload
+          }
         ]
       };
 

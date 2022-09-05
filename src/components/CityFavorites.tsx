@@ -3,10 +3,10 @@ import { Link } from 'react-router-dom'
 import { Card, ListItemSecondaryAction, IconButton, List, ListItem, ListItemText } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete'
 
-import { CityProps } from '../../stores/cityStore'
+import { CityInfoProps } from '../interfaces/CityInfoProps'
 
 interface CityFavoritesProps {
-  items: CityProps[],
+  items: CityInfoProps[],
   onDelete: (id: number) => void
 }
 

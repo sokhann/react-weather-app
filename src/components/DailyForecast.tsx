@@ -4,13 +4,12 @@ import {
   createStyles, 
   Card
 } from '@material-ui/core';
-import { DailyForecastProps } from '../../services/WeatherService'
+import { DailyForecastProps } from '../services/WeatherService'
 
 const useStyles = makeStyles(() =>
   createStyles({
     card: {
       padding: 16,
-      marginTop: 24,
       display: 'flex',
       justifyContent: 'space-between'
     },
@@ -28,7 +27,7 @@ export const DailyForecast: FC<DailyForecastProps> = ({ daily }) => {
       daily.map(
         (item: any) => {
           const { date, iconUrl, description, temp } = item
-          return <div>
+          return <div key={date}>
             <div>{date}</div>
             <img src={iconUrl} alt={description} />
             <div className={classes.temp}>{Math.floor(temp)}°C</div>
